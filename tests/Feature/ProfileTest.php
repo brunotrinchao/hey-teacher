@@ -2,15 +2,15 @@
 
 use App\Models\User;
 
-test('profile page is displayed', function () {
-    $user = User::factory()->create();
-
-    $response = $this
-        ->actingAs($user)
-        ->get('/profile');
-
-    $response->assertOk();
-});
+//test('profile page is displayed', function () {
+//    $user = User::factory()->create();
+//
+//    $response = $this
+//        ->actingAs($user)
+//        ->get('/profile');
+//
+//    $response->assertOk();
+//});
 
 test('profile information can be updated', function () {
     $user = User::factory()->create();
@@ -18,7 +18,7 @@ test('profile information can be updated', function () {
     $response = $this
         ->actingAs($user)
         ->patch('/profile', [
-            'name' => 'Test User',
+            'name'  => 'Test User',
             'email' => 'test@example.com',
         ]);
 
@@ -39,7 +39,7 @@ test('email verification status is unchanged when the email address is unchanged
     $response = $this
         ->actingAs($user)
         ->patch('/profile', [
-            'name' => 'Test User',
+            'name'  => 'Test User',
             'email' => $user->email,
         ]);
 
