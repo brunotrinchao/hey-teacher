@@ -24,4 +24,16 @@ it('Testa se a pergunta termina com ?', function () {
 });
 
 it('Testa se a pergunta tem no mínimo 10 caracteres', function () {
+    // Arrange : Preparar
+    $user = User::factory()->create();
+    actingAs($user);
+
+    // Act : Agir
+    $request = post(route('question.store'), [
+        'question' => str_repeat('*', 8) . '?',
+    ]);
+
+    // Assent : Verificar
+    $request->assertSessionHasErrors(['question' => __('validation.min.string', ['min' => 10, 'attribute' => 'question'])]);
+    assertDatabaseCount('questions', 0);
 });
