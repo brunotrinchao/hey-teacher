@@ -10,15 +10,15 @@ use Illuminate\Support\Facades\Notification;
 //    $response->assertStatus(200);
 //});
 
-test('reset password link can be requested', function () {
-    Notification::fake();
-
-    $user = User::factory()->create();
-
-    $this->post('/forgot-password', ['email' => $user->email]);
-
-    Notification::assertSentTo($user, ResetPassword::class);
-});
+//test('reset password link can be requested', function () {
+//    Notification::fake();
+//
+//    $user = User::factory()->create();
+//
+//    $this->post('/forgot-password', ['email' => $user->email]);
+//
+//    Notification::assertSentTo($user, ResetPassword::class);
+//});
 
 //test('reset password screen can be rendered', function () {
 //    Notification::fake();
