@@ -11,6 +11,12 @@ class Question extends Model
 {
     use HasFactory;
 
+    public mixed $draft;
+
+    protected $casts = [
+        'draft' => 'boolean',
+    ];
+
     /**
      * @return HasMany<Vote>
      */

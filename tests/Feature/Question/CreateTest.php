@@ -52,3 +52,21 @@ it('Testa se a pergunta tem no mínimo 10 caracteres', function () {
     $request->assertSessionHasErrors(['question' => __('validation.min.string', ['min' => 10, 'attribute' => 'question'])]);
     assertDatabaseCount('questions', 0);
 });
+
+it('Testa se criou a pergunta como rascunho', function () {
+    // Arrange : Preparar
+    $user = User::factory()->create();
+    actingAs($user);
+
+    // Act : Agir
+    post(route('question.store'), [
+        'question' => str_repeat('*', 260) . '?',
+    ]);
+
+    // Assent : Verificar
+    assertDatabaseHas('questions', [
+        'question' => str_repeat('*', 260) . '?',
+        'draft' => true
+    ]);
+
+});
