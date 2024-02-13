@@ -21,3 +21,21 @@ test('Like a question', function () {
         'user_id'     => $user->id,
     ]);
 });
+
+test('Testa apenas 1 voto permitido', function () {
+    // Arrange : Preparar
+    $user     = User::factory()->create();
+    $question = Question::factory()->create();
+
+    $this->actingAs($user);
+
+    post(route('question.like', $question));
+    post(route('question.like', $question));
+    post(route('question.like', $question));
+    post(route('question.like', $question));
+    post(route('question.like', $question));
+
+    // Assent : Verificar
+    $vote = $user->votes()->where('question_id', '=', $question->id)->get();
+    expect($vote)->toHaveCount(1);
+});
