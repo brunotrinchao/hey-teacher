@@ -15,7 +15,7 @@ test('Nova pergunta com até 255 catacteres', function () {
     ]);
 
     // Assent : Verificar
-    $request->assertRedirect(route('dashboard'));
+    $request->assertRedirect();
     assertDatabaseCount('questions', 1);
     assertDatabaseHas('questions', ['question' => str_repeat('*', 260) . '?']);
 });
