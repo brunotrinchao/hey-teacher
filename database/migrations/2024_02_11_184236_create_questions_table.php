@@ -14,7 +14,11 @@ return new class () extends Migration {
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('created_by_id')->nullable();
+            $table->foreign('created_by_id')->references('id')->on('users');
+//            $table->foreignIdFor(\App\Models\User::class, 'created_by');
             $table->text('question');
+            $table->boolean('draft')->default(false);
             $table->timestamps();
         });
     }

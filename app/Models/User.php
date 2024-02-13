@@ -63,6 +63,11 @@ class User extends Authenticatable
         );
     }
 
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Question::class, 'created_by_id');
+    }
+
     public function unlike(Question $question): void
     {
         $this->votes()->updateOrCreate(
