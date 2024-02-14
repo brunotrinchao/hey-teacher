@@ -23,6 +23,6 @@ class QuestionPolicy
     {
         $q = $question->toArray();
 
-        return $q['draft'];
+        return $q['draft'] && $question->createdBy->is($user);
     }
 }

@@ -42,3 +42,19 @@ test('Somente pergunta rascunho podera ser editada', function () {
 //        ->assertRedirect()
 //        ->assertSessionHas();
 });
+
+test('Somente quem criou a pergunta pode editar', function () {
+    $rightUser = User::factory()->create();
+    $wrongUser = User::factory()->create();
+    $question  = Question::factory()->create(['draft' => true, 'created_by_id' => $rightUser->id]);
+
+    actingAs($wrongUser);
+
+    get(route('question.edit', $question))
+        ->assertForbidden();
+
+    actingAs($rightUser);
+
+    get(route('question.edit', $question))
+        ->assertSuccessful();
+});
