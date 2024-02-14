@@ -33,14 +33,19 @@
                 <tbody>
                 @foreach($questions->where('draft', true ) as $question)
                     <x-table.tr>
-                        <x-table.td>{{$question->question}}</x-table.td>
+                        <x-table.td  width="80%">{{$question->question}}</x-table.td>
                         <x-table.td>
+                            <div class="flex justify-start space-x-3">
                             <x-form :action="route('question.destroy', $question)" delete>
-                                <button type="submit" class="hover:underline text-red-500">Delete</button>
+                                <button type="submit" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-1 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Delete</button>
                             </x-form>
+                                <x-form :action="route('question.destroy', $question)" delete>
+                                    <button type="submit" class="text-yellow-700 hover:text-white border border-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-2 py-1 text-center me-2 mb-2 dark:border-yellow-500 dark:text-yellow-500 dark:hover:text-white dark:hover:bg-yellow-600 dark:focus:ring-yellow-900">Edit</button>
+                                </x-form>
                             <x-form :action="route('question.publish', $question)" put>
-                                <button type="submit" class="hover:underline text-blue-500">Publish</button>
+                                <button type="submit" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-2 py-1 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-500 dark:focus:ring-green-800">Publish</button>
                             </x-form>
+                            </div>
                         </x-table.td>
                     </x-table.tr>
                 @endforeach
@@ -67,11 +72,13 @@
                 <tbody>
                 @foreach($questions->where('draft', false ) as $question)
                     <x-table.tr>
-                        <x-table.td>{{$question->question}}</x-table.td>
+                        <x-table.td width="80%">{{$question->question}}</x-table.td>
                         <x-table.td>
+                            <div class="flex justify-start space-x-3">
                             <x-form :action="route('question.destroy', $question)" delete>
-                                <button type="submit" class="hover:underline text-red-500">Delete</button>
+                                <button type="submit" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-1 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Delete</button>
                             </x-form>
+                            </div>
                         </x-table.td>
                     </x-table.tr>
                 @endforeach
