@@ -25,3 +25,20 @@ test('Retornando view certa', function () {
 
     get(route('question.edit', $question))->assertViewIs('question.edit');
 });
+
+test('Somente pergunta rascunho podera ser editada', function () {
+    $user = User::factory()->create();
+    actingAs($user);
+
+    $questionNotDraft = Question::factory()
+        ->for($user, 'createdBy')
+        ->create(['draft' => false]);
+    $questionDraft = Question::factory()
+        ->for($user, 'createdBy')
+        ->create(['draft' => true]);
+
+    get(route('question.edit', $questionNotDraft))->assertForbidden();
+    get(route('question.edit', $questionDraft))->assertSuccessful();
+//        ->assertRedirect()
+//        ->assertSessionHas();
+});
