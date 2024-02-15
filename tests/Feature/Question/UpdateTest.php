@@ -2,7 +2,7 @@
 
 use App\Models\{Question, User};
 
-use function Pest\Laravel\{actingAs, get, put};
+use function Pest\Laravel\{actingAs, assertDatabaseCount, assertDatabaseHas, get, put};
 
 test('Atualiza pergunta no banco', function () {
     $user     = User::factory()->create();
@@ -12,7 +12,7 @@ test('Atualiza pergunta no banco', function () {
 
     put(route('question.update', $question), [
         'question' => 'Updated Question?',
-    ])->assertRedirect();
+    ])->assertRedirect('question.index');
 
     $question->refresh();
 
@@ -62,3 +62,57 @@ test('Somente quem criou a pergunta pode editar', function () {
     put(route('question.update', $question), ['question' => 'Updated Question?'])
         ->assertRedirect();
 });
+
+test('Nova pergunta com até 255 catacteres', function () {
+    // Arrange : Preparar
+    $user     = User::factory()->create();
+    $question = Question::factory()
+        ->for($user, 'createdBy')
+        ->create(['draft' => true]);
+
+    actingAs($user);
+
+    // Act : Agir
+    $request = put(route('question.update', $question), [
+        'question' => str_repeat('*', 260) . '?',
+    ]);
+
+    // Assent : Verificar
+    $request->assertRedirect();
+    assertDatabaseCount('questions', 1);
+    assertDatabaseHas('questions', ['question' => str_repeat('*', 260) . '?']);
+});
+
+//it('Testa se a pergunta termina com ?', function () {
+//    $user     = User::factory()->create();
+//    $question = Question::factory()->for($user, 'createdBy')->create(['draft' => true]);
+//    actingAs($user);
+//
+//    $request = put(route('question.update', $question), [
+//        'question' => str_repeat('*', 10),
+//    ]);
+//
+//    $request->assertSessionHasErrors([
+//        'question' => 'Are you sure that is a question? It is missing the question mark in the end.',
+//    ]);
+//
+//    assertDatabaseHas('questions', [
+//        'question' => $question->question,
+//    ]);
+//
+//});
+
+//it('Testa se a pergunta tem no mínimo 10 caracteres', function () {
+//    $user     = User::factory()->create();
+//    $question = Question::factory()->for($user, 'createdBy')->create(['draft' => true]);
+//    actingAs($user);
+//
+//    $request = put(route('question.update', $question), [
+//        'question' => str_repeat('*', 8) . '?',
+//    ]);
+//
+//    $request->assertSessionHasErrors(['question' => __('validation.min.string', ['min' => 10, 'attribute' => 'question'])]);
+//    assertDatabaseHas('questions', [
+//        'question' => $question->question,
+//    ]);
+//});
