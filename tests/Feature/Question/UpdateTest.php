@@ -12,7 +12,7 @@ test('Atualiza pergunta no banco', function () {
 
     put(route('question.update', $question), [
         'question' => 'Updated Question?',
-    ])->assertRedirect('question.index');
+    ])->assertRedirect(route('question.index'));
 
     $question->refresh();
 
