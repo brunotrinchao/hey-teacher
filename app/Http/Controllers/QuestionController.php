@@ -38,6 +38,13 @@ class QuestionController extends Controller
         return back();
     }
 
+    public function edit(Question $question): View
+    {
+        $this->authorize('update', $question);
+
+        return view('question.edit', compact('question'));
+    }
+
     public function destroy(Question $question): RedirectResponse
     {
         $this->authorize('destroy', $question);
@@ -45,5 +52,15 @@ class QuestionController extends Controller
         $question->delete();
 
         return back();
+    }
+
+    public function update(Question $question): RedirectResponse
+    {
+        $this->authorize('update', $question);
+
+        $question->question = request()->question;
+        $question->save();
+
+        return to_route('question.index');
     }
 }
