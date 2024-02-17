@@ -28,6 +28,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::prefix('/{question}')->group(function () {
             Route::delete('', [QuestionController::class, 'destroy'])->name('question.destroy');
             Route::put('', [QuestionController::class, 'update'])->name('question.update');
+            Route::patch('/archive', [QuestionController::class, 'archive'])->name('question.archive');
+            Route::patch('/restore', [QuestionController::class, 'restore'])->name('question.restore');
+            Route::patch('', [QuestionController::class, 'archive'])->name('question.archive');
             Route::get('/edit', [QuestionController::class, 'edit'])->name('question.edit');
         });
     });
