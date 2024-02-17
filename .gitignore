@@ -17,4 +17,5 @@ yarn-error.log
 /.idea
 /.vscode
 /app/storage/debugbar
+/storage/debugbar
 /.phpunit.cache
