@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use App\Models\{Question, User};
 
 use function Pest\Laravel\{actingAs, assertDatabaseCount, assertDatabaseHas, post};
 
@@ -31,9 +31,7 @@ test('Nova pergunta com até 255 catacteres', function () {
 //    ]);
 //
 //    // Assent : Verificar
-//    $request->assertSessionHasErrors([
-//        'question' => 'No término da pergunta adicione ?'
-//    ]);
+//    $request->assertSessionHasErrors('question');
 //    assertDatabaseCount('questions', 0);
 //
 //});
@@ -74,4 +72,15 @@ test('Only authentication a new question', function () {
     post(route('question.store'), [
         'question' => str_repeat('*', 8) . '?',
     ])->assertRedirect(route('login'));
+});
+
+test('Pergunta única', function () {
+    $user = User::factory()->create();
+    actingAs($user);
+
+    Question::factory()->create(['question' => 'Alguma Pergunta?']);
+
+    post(route('question.store'), [
+        'question' => 'Alguma Pergunta?',
+    ])->assertSessionHasErrors('question');
 });

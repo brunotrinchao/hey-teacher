@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
+use App\Rules\SameQuestionRule;
 use Closure;
 use Illuminate\Http\{RedirectResponse, Request, Response};
 use Illuminate\View\View;
@@ -28,6 +29,7 @@ class QuestionController extends Controller
                         $fail("The {$attribute} is invalid.");
                     }
                 },
+                new SameQuestionRule(),
             ],
         ]);
 
